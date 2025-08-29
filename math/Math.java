@@ -2,11 +2,11 @@ package math;
 
 class Math {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
     //Use the // to create single line comments to either add info or to take out code for debugging
 
-    System.out.println("Hello world!");
+    //System.out.println("Hello world!");
 
     //We will be using System.out.println and System.out.print throughout the year. Try using both below to see what the difference is!
 
@@ -48,12 +48,36 @@ class Math {
     //Try doing some math operations with numbers. How can we check to see if the math worked?
 
     //Create codes that will print the following:
+    for (int i=1;i<=100;i++){
+      if (i%2==1) {
+        System.out.println(i);
+      }
+    }
+    System.out.print("\n\n");
+
 
     //Odd integers from 1 to 100, inclusive of both
 
-
+    for (int i=1;i<=100;i++)
+    {
+      if(i%3==0)
+      {
+        System.out.println(i);
+      }
+    }
 
     //All multiples of 3 from 1 to 100
+
+    for (int i=1000;i>=0;i--)
+    {
+      if (i%10==0) {
+        
+        System.out.print(i);
+        System.out.print("-");
+
+      }
+    }
+    System.out.print("\b");
 
 
 
