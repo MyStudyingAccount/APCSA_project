@@ -61,31 +61,49 @@ public class Roomba implements Directions
 	// changing roomba into our BetterBot
 	public int cleanRoom(String worldName, int startX, int startY)
 	{
+		// debug settings
+		int travelingPattern = 1;
 
+		// World settings
 		World.readWorld(worldName);
 		World.setVisible(true);
-		World.setDelay(1);
+		World.setDelay(0);
+
+		// variables initialize
 		int totalBeepers = 0;
-		final int travelingPattern = 1;
 		boolean finish = false;
+		int area = 0;
+		// to find the area, we can simply do it by adding 1 to our counting variable
+		// each time our bot moves to a new gird, which is every move for pattern 1, and
+		// all the move expect the ones moving backwards for pattern 2
+		area++;
+		// in this way we didnt count the area for our inital grid, so we have to add
+		// area by one here
+
+		int pileNumber = 0;
+		// Explain it here
+		// [WIP]
+		int biggestPileNumber = 0;
+		int biggestPilePositionX = 0;
+		int biggestPilePositionY = 0;
+
+		// temp variables
+		int currentPileBeeperNumber = 0;
+		int biggestPileRawPositionX = 0;
+		int biggestPileRawPositionY = 0;
+		double averagePileSize=0;
+		double percentDirty=0;
+		// we want the position from the top left corner, but before the program is done
+		// we dont know where it is, but we have to record the position though out our
+		// program, so we keep a raw data
+
+		int SmallestRoombaPositionX = Integer.MAX_VALUE;
+		int biggestRoombaPositionY = -1;
+		//they are actually the position of the left up corner
 		while (!finish)
-		{// if we are not finished
+		{
+			// if we are not finished
 
-			while (roomba.frontIsClear())
-			{
-
-				totalBeepers = totalBeepers + roomba.pickAllBeepersAndCount();
-				// remember how roomba.pickAllBeepersAndCount is defined? Its gonna return the
-				// number of the beeper it have collected.
-
-				// can also write in this way
-				// totalBeepers += roomba.pickAllBeepersAndCount();
-
-				roomba.move();
-			}
-			// if the program run till here it means front is not clear, else it should
-			// still be looping in the while
-			// in this case we can assume its running into a wall
 			// we have 2 ways to do it now, we can either do zig zag or clear a line and go
 			// back and go to the next line, like the ladder E.
 			// the first way is relatively hard to write but require less work for the bot
@@ -95,7 +113,42 @@ public class Roomba implements Directions
 			// first way
 			if (travelingPattern == 1)
 			{
+				while (roomba.frontIsClear())
+				{
+					currentPileBeeperNumber = roomba.pickAllBeepersAndCount();
+					if (currentPileBeeperNumber > biggestPileNumber)
+					{
+						biggestPileNumber = currentPileBeeperNumber;
+						biggestPileRawPositionX = roomba.avenue();
+						biggestPileRawPositionY = roomba.street();
+					}
+					if (currentPileBeeperNumber > 0)
+					{
+						pileNumber++;
+					}
+					totalBeepers = totalBeepers + currentPileBeeperNumber;
+					// remember how roomba.pickAllBeepersAndCount is defined? Its gonna return the
+					// number of the beeper it have collected.
 
+					// can also write in this way
+					// totalBeepers += roomba.pickAllBeepersAndCount();
+
+					roomba.move();
+					if (roomba.street() > biggestRoombaPositionY)
+					{
+						biggestRoombaPositionY = roomba.street();
+					}
+					if (roomba.avenue() < SmallestRoombaPositionX)
+					{
+						SmallestRoombaPositionX = roomba.avenue();
+					}
+					area++;
+				}
+				// if the program run till here it means front is not clear, else it should
+				// still be looping in the while
+				// in this case we can assume its running into a wall
+
+				boolean facingEast = true;
 				if (roomba.facingEast())
 				{
 					roomba.turnLeft();
@@ -103,17 +156,41 @@ public class Roomba implements Directions
 				else
 				{
 					roomba.turnRight();
+					facingEast = false;
 				}
 				if (roomba.frontIsClear())
 				{
 					roomba.move();
+					if (roomba.street() > biggestRoombaPositionY)
+					{
+						biggestRoombaPositionY = roomba.street();
+					}
+					if (roomba.avenue() < SmallestRoombaPositionX)
+					{
+						SmallestRoombaPositionX = roomba.avenue();
+					}
+					area++;
 				}
 				else
 				{
+					// another tricky but unconvensional way to get the corner position is this
+					// cornerRawPositionY=roomba.street();
 					finish = true;
 				}
-				totalBeepers = totalBeepers + roomba.pickAllBeepersAndCount();
-				if (roomba.facingEast())
+
+				currentPileBeeperNumber = roomba.pickAllBeepersAndCount();
+				if (currentPileBeeperNumber > biggestPileNumber)
+				{
+					biggestPileNumber = currentPileBeeperNumber;
+					biggestPileRawPositionX = roomba.avenue();
+					biggestPileRawPositionY = roomba.street();
+				}
+				if (currentPileBeeperNumber > 0)
+				{
+					pileNumber++;
+				}
+				totalBeepers = totalBeepers + currentPileBeeperNumber;
+				if (facingEast)
 				{
 					roomba.turnLeft();
 				}
@@ -122,12 +199,109 @@ public class Roomba implements Directions
 					roomba.turnRight();
 				}
 			}
+
 			else if (travelingPattern == 2)
 			{
-				System.out.println("WIP");
+				while (roomba.frontIsClear())
+				{
+
+					roomba.move();
+					if (roomba.street() > biggestRoombaPositionY)
+					{
+						biggestRoombaPositionY = roomba.street();
+					}
+					if (roomba.avenue() < SmallestRoombaPositionX)
+					{
+						SmallestRoombaPositionX = roomba.avenue();
+					}
+					area++;
+
+					currentPileBeeperNumber = roomba.pickAllBeepersAndCount();
+					if (currentPileBeeperNumber > biggestPileNumber)
+					{
+						biggestPileNumber = currentPileBeeperNumber;
+						biggestPileRawPositionX = roomba.avenue();
+						biggestPileRawPositionY = roomba.street();
+					}
+					if (currentPileBeeperNumber > 0)
+					{
+						pileNumber++;
+					}
+					totalBeepers = totalBeepers + currentPileBeeperNumber; // remember how roomba.pickAllBeepersAndCount
+																			// is defined? Its gonna return the
+					// number of the beeper it have collected.
+
+					// can also write in this way
+					// totalBeepers += roomba.pickAllBeepersAndCount();
+				}
+				roomba.turnRight();
+				roomba.turnRight();
+				while (roomba.frontIsClear())
+				{
+					roomba.move();
+					if (roomba.street() > biggestRoombaPositionY)
+					{
+						biggestRoombaPositionY = roomba.street();
+					}
+					if (roomba.avenue() < SmallestRoombaPositionX)
+					{
+						SmallestRoombaPositionX = roomba.avenue();
+					}
+				} // dont have to check if there's beepers as we are going the same way back
+				roomba.turnRight();
+				if (roomba.frontIsClear())
+				{
+
+					roomba.move();
+					if (roomba.street() > biggestRoombaPositionY)
+					{
+						biggestRoombaPositionY = roomba.street();
+					}
+					if (roomba.avenue() < SmallestRoombaPositionX)
+					{
+						SmallestRoombaPositionX = roomba.avenue();
+					}
+					area++;
+					currentPileBeeperNumber = roomba.pickAllBeepersAndCount();
+					if (currentPileBeeperNumber > biggestPileNumber)
+					{
+						biggestPileNumber = currentPileBeeperNumber;
+						biggestPileRawPositionX = roomba.avenue();
+						biggestPileRawPositionY = roomba.street();
+					}
+					if (currentPileBeeperNumber > 0)
+					{
+						pileNumber++;
+					}
+					totalBeepers = totalBeepers + currentPileBeeperNumber;
+					roomba.turnRight();
+				}
+				else
+				{
+					// if you are not brave enough to take the challenge those two also get you the
+					// corner position, try to think about why
+					// cornerRawPositionX=roomba.avenue();
+					// cornerRawPositionY=roomba.street();
+					finish = true;
+				}
 			}
 		}
 
+		// convert raw biggest pile position into the position we want
+		biggestPilePositionX=biggestPileRawPositionX-SmallestRoombaPositionX;
+		biggestPilePositionY=biggestRoombaPositionY-biggestPileRawPositionY;
+
+
+		averagePileSize=(double)(totalBeepers)/(double)(pileNumber);
+		percentDirty=(double)(pileNumber)/(double)(area);
+		//output
+		System.out.println("Area is " + area);
+		System.out.println("Number of pile is " + pileNumber);
+		System.out.println("Number of beeper is " + totalBeepers);
+		System.out.println("Biggest pile have " + biggestPileNumber + " of beepers");
+		System.out.println("Biggest pile from top left corner is right " + biggestPilePositionX + " and down " + biggestPilePositionY);
+		System.out.println("The average pile size is " + averagePileSize);
+		System.out.println("Percent dirty is " + percentDirty);
 		return totalBeepers;
 	}
 
@@ -137,8 +311,6 @@ public class Roomba implements Directions
 
 		Roomba cleaner = new Roomba();
 		int totalBeepers = cleaner.cleanRoom(worldName, 7, 6);
-		System.out.println("Roomba cleaned up a total of " + totalBeepers + " beepers.");
-
 	}
 
 }
