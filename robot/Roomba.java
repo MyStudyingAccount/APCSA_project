@@ -3,7 +3,8 @@ package robot;
 import kareltherobot.*;
 
 //To make everything look beautiful, and to show how to write it in a elegant way, I have to introduce method earlier than supposed to be. And this is actually a bit different than how you normally do it as we are now trying to extend on the karel J robot module
-class BetterBot extends Robot {
+class BetterBot extends Robot
+{
 	public BetterBot(int street, int avenue, Direction direction, int beepers) {
 		super(street, avenue, direction, beepers);
 	}
@@ -14,16 +15,19 @@ class BetterBot extends Robot {
 	// made
 
 	// to turn right we turn left 3 times
-	public void turnRight() {
+	public void turnRight()
+	{
 		turnLeft();
 		turnLeft();
 		turnLeft();
 	}
 
 	// what this does shall be self explanatory
-	public int pickAllBeepersAndCount() {
+	public int pickAllBeepersAndCount()
+	{
 		int beepersCollected = 0;
-		while (nextToABeeper()) {
+		while (nextToABeeper())
+		{
 			pickBeeper();
 			beepersCollected++;
 		}
@@ -33,8 +37,10 @@ class BetterBot extends Robot {
 		// MyVar1=pickAllBeepersAndCount();
 	}
 
-	public void/* note here its public void */ pickAllBeepers() {
-		while (nextToABeeper()) {
+	public void/* note here its public void */ pickAllBeepers()
+	{
+		while (nextToABeeper())
+		{
 			pickBeeper();
 		}
 		// public void means this function is not going to return a value, so you use it
@@ -46,13 +52,15 @@ class BetterBot extends Robot {
 
 }
 
-public class Roomba implements Directions {
+public class Roomba implements Directions
+{
 
 	private BetterBot /* Used to be Robot */ roomba = new BetterBot(7, 6, East, 67);
 
 	// (because of the weakness and undevelopedness of the Robot module, )we are
 	// changing roomba into our BetterBot
-	public int cleanRoom(String worldName, int startX, int startY) {
+	public int cleanRoom(String worldName, int startX, int startY)
+	{
 
 		World.readWorld(worldName);
 		World.setVisible(true);
@@ -60,9 +68,11 @@ public class Roomba implements Directions {
 		int totalBeepers = 0;
 		final int travelingPattern = 1;
 		boolean finish = false;
-		while (!finish) {// if we are not finished
+		while (!finish)
+		{// if we are not finished
 
-			while (roomba.frontIsClear()) {
+			while (roomba.frontIsClear())
+			{
 
 				totalBeepers = totalBeepers + roomba.pickAllBeepersAndCount();
 				// remember how roomba.pickAllBeepersAndCount is defined? Its gonna return the
@@ -83,25 +93,37 @@ public class Roomba implements Directions {
 			// extra work
 
 			// first way
-			if (travelingPattern == 1) {
+			if (travelingPattern == 1)
+			{
 
-				if (roomba.facingEast()) {
+				if (roomba.facingEast())
+				{
 					roomba.turnLeft();
-				} else {
+				}
+				else
+				{
 					roomba.turnRight();
 				}
-				if (roomba.frontIsClear()) {
+				if (roomba.frontIsClear())
+				{
 					roomba.move();
-				} else {
+				}
+				else
+				{
 					finish = true;
 				}
 				totalBeepers = totalBeepers + roomba.pickAllBeepersAndCount();
-				if (roomba.facingEast()) {
+				if (roomba.facingEast())
+				{
 					roomba.turnLeft();
-				} else {
+				}
+				else
+				{
 					roomba.turnRight();
 				}
-			} else if (travelingPattern == 2) {
+			}
+			else if (travelingPattern == 2)
+			{
 				System.out.println("WIP");
 			}
 		}
@@ -109,7 +131,8 @@ public class Roomba implements Directions {
 		return totalBeepers;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		String worldName = "robot/basicRoom.wld";
 
 		Roomba cleaner = new Roomba();
