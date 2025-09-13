@@ -55,14 +55,15 @@ class BetterBot extends Robot
 public class Roomba implements Directions
 {
 
-	private BetterBot /* Used to be Robot */ roomba = new BetterBot(7, 6, East, 67);
 
 	// (because of the weakness and undevelopedness of the Robot module, )we are
 	// changing roomba into our BetterBot
 	public int cleanRoom(String worldName, int startX, int startY)
 	{
+		BetterBot /* Used to be Robot */ roomba = new BetterBot(startX, startY, East, 67);
+
 		// debug settings
-		int travelingPattern = 1;
+		int travelingPattern = 2;
 
 		// World settings
 		World.readWorld(worldName);
@@ -307,10 +308,22 @@ public class Roomba implements Directions
 
 	public static void main(String[] args)
 	{
-		String worldName = "robot/basicRoom.wld";
+		//String worldName = "robot/TestWorld-1.wld";
+		//String worldName = "robot/TestWorld-2.wld";
+		//String worldName = "robot/basicRoom.wld";
+		String worldName = "robot/finalTestWorld2024.wld";
+		
 
 		Roomba cleaner = new Roomba();
-		int totalBeepers = cleaner.cleanRoom(worldName, 7, 6);
+		//basicRoom
+		//int totalBeepers = cleaner.cleanRoom(worldName, 7, 6);
+		//TestWorld1
+		//int totalBeepers = cleaner.cleanRoom(worldName, 25, 16);
+		//TestWorld2
+		//int totalBeepers = cleaner.cleanRoom(worldName, 5, 6);
+		//FinalTestWorld
+		int totalBeepers = cleaner.cleanRoom(worldName, 26, 101);
+
 	}
 
 }
