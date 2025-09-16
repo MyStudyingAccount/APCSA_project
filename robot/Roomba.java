@@ -63,7 +63,7 @@ public class Roomba implements Directions
 		BetterBot /* Used to be Robot */ roomba = new BetterBot(startX, startY, East, 67);
 
 		// debug settings
-		int travelingPattern = 1;
+		int travelingPattern = 2;
 
 		// World settings
 		World.readWorld(worldName);
@@ -101,6 +101,18 @@ public class Roomba implements Directions
 		int SmallestRoombaPositionX = Integer.MAX_VALUE;
 		int biggestRoombaPositionY = -1;
 		//they are actually the position of the left up corner
+		currentPileBeeperNumber = roomba.pickAllBeepersAndCount();
+					if (currentPileBeeperNumber > biggestPileNumber)
+					{
+						biggestPileNumber = currentPileBeeperNumber;
+						biggestPileRawPositionX = roomba.avenue();
+						biggestPileRawPositionY = roomba.street();
+					}
+					if (currentPileBeeperNumber > 0)
+					{
+						pileNumber++;
+					}
+					totalBeepers = totalBeepers + currentPileBeeperNumber;
 		while (!finish)
 		{
 			// if we are not finished
@@ -287,6 +299,18 @@ public class Roomba implements Directions
 				}
 			}
 		}
+		currentPileBeeperNumber = roomba.pickAllBeepersAndCount();
+					if (currentPileBeeperNumber > biggestPileNumber)
+					{
+						biggestPileNumber = currentPileBeeperNumber;
+						biggestPileRawPositionX = roomba.avenue();
+						biggestPileRawPositionY = roomba.street();
+					}
+					if (currentPileBeeperNumber > 0)
+					{
+						pileNumber++;
+					}
+					totalBeepers = totalBeepers + currentPileBeeperNumber;
 
 		// convert raw biggest pile position into the position we want
 		biggestPilePositionX=biggestPileRawPositionX-SmallestRoombaPositionX;
