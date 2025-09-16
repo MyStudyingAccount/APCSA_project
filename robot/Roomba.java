@@ -63,7 +63,7 @@ public class Roomba implements Directions
 		BetterBot /* Used to be Robot */ roomba = new BetterBot(startX, startY, East, 67);
 
 		// debug settings
-		int travelingPattern = 2;
+		int travelingPattern = 1;
 
 		// World settings
 		World.readWorld(worldName);
