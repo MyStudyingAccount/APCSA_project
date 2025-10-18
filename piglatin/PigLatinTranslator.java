@@ -30,18 +30,47 @@ public class PigLatinTranslator {
         System.out.println("  -> translateWord('" + input + "')");
 
         String result = "";
-
+        boolean no_word=true;
+        for(int i=0;i<input.length();i++)
+        {
+            if(input.charAt(i)!=' ')
+            {
+                no_word=false;
+                break;
+            }
+        }
+        if (no_word){return "";}
         // TODO: Replace this code to correctly translate a single word.
         int i=0;
         for (i=0;i<input.length();i++)
         {
-            if ((input.charAt(i)=='a')||(input.charAt(i)=='e')||(input.charAt(i)=='i')||(input.charAt(i)=='o')||(input.charAt(i)=='u')||(input.charAt(i)=='y'))
+            if ((input.charAt(i)=='a')||(input.charAt(i)=='e')||(input.charAt(i)=='i')||(input.charAt(i)=='o')||(input.charAt(i)=='u')||(input.charAt(i)=='y')||(input.charAt(i)=='A')||(input.charAt(i)=='E')||(input.charAt(i)=='I')||(input.charAt(i)=='O')||(input.charAt(i)=='U')||(input.charAt(i)=='Y'))
             {
                 break;
             }
         }
         //System.err.println(i);
-        result=input.substring(i,input.length())+input.substring(0,i)+"ay";
+        String firstone="";
+        String secondone="";
+        String thirdone="ay";
+        //basic
+        firstone=input.substring(i, input.length());
+        secondone=input.substring(0, i);
+
+        //cap detect
+        if (Character.isUpperCase(input.charAt(0)))
+        {
+            //first letter caped
+            firstone = firstone.substring(0,1).toUpperCase() + firstone.substring(1, firstone.length());
+            secondone = secondone.substring(0,1).toLowerCase() + secondone.substring(1, secondone.length());
+        }
+        //comma detect
+        if (input.substring(input.length()-1,input.length()).matches(".*[\\p{Punct}].*"))
+        {
+            firstone=firstone.substring(0, firstone.length()-1);
+            thirdone+=input.substring(input.length()-1,input.length());
+        }
+        result=firstone+secondone+thirdone;
         // Start here first!
         // This is the first place to work.
 
