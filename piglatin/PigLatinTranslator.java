@@ -1,5 +1,5 @@
 package piglatin;
-
+import java.util.Scanner;
 public class PigLatinTranslator {
     public static Book translate(Book input) {
         Book translatedBook = new Book();
@@ -21,8 +21,16 @@ public class PigLatinTranslator {
         // The input to this function could be any English string.
         // It may be made up of many words.
         // This method must call translateWord once for each word in the string.
-        result = translateWord(input);
-
+        Scanner sc = new Scanner(input);
+        while (sc.hasNext())
+        {
+            result += translateWord(sc.next());
+            if (sc.hasNext())
+            {
+                result+=" ";
+            }
+        }
+        sc.close();
         return result;
     }
 
