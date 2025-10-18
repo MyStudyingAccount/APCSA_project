@@ -40,7 +40,6 @@ public class PigLatinTranslator {
             }
         }
         if (no_word){return "";}
-        // TODO: Replace this code to correctly translate a single word.
         int i=0;
         for (i=0;i<input.length();i++)
         {
