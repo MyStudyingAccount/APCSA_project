@@ -1,4 +1,7 @@
 package piglatin;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 public class PigLatinTranslator {
     public static Book translate(Book input) {
@@ -6,9 +9,14 @@ public class PigLatinTranslator {
 
         // TODO: Add code here to populate translatedBook with a translation of the
         // input book.
+        for (int i=0;i<input.getLineCount();i++)
+        {
+            translatedBook.appendLine(translate(input.getLine(i)));
+        }
+        // Must write to file using provided name.
         // Curent do-nothing code will return an empty book.
         // Your code will need to call translate(String input) many times.
-
+        
         return translatedBook;
     }
 
@@ -17,10 +25,6 @@ public class PigLatinTranslator {
 
         String result = "";
 
-        // TODO: translate a string input, store in result.
-        // The input to this function could be any English string.
-        // It may be made up of many words.
-        // This method must call translateWord once for each word in the string.
         Scanner sc = new Scanner(input);
         while (sc.hasNext())
         {
@@ -41,11 +45,14 @@ public class PigLatinTranslator {
         boolean no_word=true;
         for(int i=0;i<input.length();i++)
         {
-            if(input.charAt(i)!=' ')
+            if(Character.isLetter(input.charAt(i)))
             {
                 no_word=false;
                 break;
             }
+        }
+        if (input.length()==0) {
+            no_word=true;
         }
         if (no_word){return "";}
         int i=0;
@@ -63,13 +70,17 @@ public class PigLatinTranslator {
         //basic
         firstone=input.substring(i, input.length());
         secondone=input.substring(0, i);
-
+        //all consonant
+        if (i==input.length())
+        {
+            return input+"ay";
+        }
         //cap detect
         if (Character.isUpperCase(input.charAt(0)))
         {
             //first letter caped
             firstone = firstone.substring(0,1).toUpperCase() + firstone.substring(1, firstone.length());
-            secondone = secondone.substring(0,1).toLowerCase() + secondone.substring(1, secondone.length());
+            if (secondone!="")secondone = secondone.substring(0,1).toLowerCase() + secondone.substring(1, secondone.length());
         }
         //comma detect
         if (input.substring(input.length()-1,input.length()).matches(".*[\\p{Punct}].*"))

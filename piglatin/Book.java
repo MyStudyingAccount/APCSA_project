@@ -2,13 +2,13 @@ package piglatin;
 
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Book {
     private String title;
     private ArrayList<String> text = new ArrayList<String>();
-
     Book() {
         // Empty book - no code needed here.
     }
@@ -50,8 +50,11 @@ public class Book {
         // load a book from an input string.
         this.title = title;
 
-        // TODO: use Scanner to populate the book
-        // use: text.add(line) to add a line to the book.
+        Scanner sc = new Scanner(string);
+        while (sc.hasNextLine()) {
+            text.add(sc.nextLine());
+        }
+        sc.close();
     }
 
     public void readFromUrl(String title, String url) {
@@ -65,6 +68,11 @@ public class Book {
             // Scanner can open a file on a URL like this:
             // Scanner(bookUrl.openStream())
             // use: text.add(line) to add a line to the book.
+            Scanner sc = new Scanner(bookUrl.openStream());
+            while (sc.hasNextLine()) {
+                text.add(sc.nextLine());
+            }
+            sc.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -72,6 +80,15 @@ public class Book {
 
     void writeToFile(String name) {
         // TODO: Add code here to write the contents of the book to a file.
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(name))) {
+            for (String line : text) {
+                writer.write(line); // Write each string
+                writer.newLine();   // Add a newline after each string
+            }
+            //System.out.println("Successfully wrote ArrayList to " + fileName);
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
         // Must write to file using provided name.
     }
 }
