@@ -32,9 +32,18 @@ public class PigLatinTranslator {
         String result = "";
 
         // TODO: Replace this code to correctly translate a single word.
+        int i=0;
+        for (i=0;i<input.length();i++)
+        {
+            if ((input.charAt(i)=='a')||(input.charAt(i)=='e')||(input.charAt(i)=='i')||(input.charAt(i)=='o')||(input.charAt(i)=='u')||(input.charAt(i)=='y'))
+            {
+                break;
+            }
+        }
+        //System.err.println(i);
+        result=input.substring(i,input.length())+input.substring(0,i)+"ay";
         // Start here first!
         // This is the first place to work.
-        result = input; // delete this line
 
         return result;
     }

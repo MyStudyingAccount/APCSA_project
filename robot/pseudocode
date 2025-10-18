@@ -2,66 +2,93 @@ package robot;
 
 import kareltherobot.*;
 
-//To make everything look beautiful, and to show how to write it in a elegant way, I have to introduce method earlier than supposed to be. And this is actually a bit different than how you normally do it as we are now trying to extend on the karel J robot module
-class BetterBot extends Robot
-{
-	public BetterBot(int street, int avenue, Direction direction, int beepers) {
-		super(street, avenue, direction, beepers);
-	}
-	// all the things upon here basically means (because we are more superior than
-	// the robot module, and to fulfill our glorious goal of writing a neat code) we
-	// are declaring a extension to the orignal Robot module called BetterBot which
-	// contains everything in robot module plus all those following methods that we
-	// made
+define a new robot module called BetterBot which is an extension of the orignal Robot module{
+	defining the betterBot here
 
-	// to turn right we turn left 3 times
-	public void turnRight()
+	define turnRight()
 	{
 		turnLeft();
 		turnLeft();
 		turnLeft();
 	}
 
-	// what this does shall be self explanatory
-	public int pickAllBeepersAndCount()
+	define a int function pickAllBeepersAndCount()
 	{
 		int beepersCollected = 0;
-		while (nextToABeeper())
+		while next to a beeper
 		{
-			pickBeeper();
-			beepersCollected++;
+			pickBeeper
+			add the counting var by 1 to count the beeper we just picked
 		}
 		return beepersCollected;
-		// return means it will have a value in the end, so you can plug it in your
-		// program like how you plug in a interger variable, for example you can do int
-		// MyVar1=pickAllBeepersAndCount();
-	}
-
-	public void/* note here its public void */ pickAllBeepers()
-	{
-		while (nextToABeeper())
-		{
-			pickBeeper();
+		/*
+		tips:
+		
+		return means it will return a value, so you can use it like a variable or a value.
+		for example you can do int x = roomba.pickAllBeepersAndCount();
+		or you can do totalBeepers = totalBeepers + roomba.pickAllBeepersAndCount();
+		
+		*/
+		
 		}
-		// public void means this function is not going to return a value, so you use it
-		// like how you use roomba.move() or System.out.print()
-		// this one is not used currently but when you are developing on production(when
-		// you get a job), you will want to do so just in case you might need it in the
-		// future
+
+/*
+here is an example of a function that does not return a value
+
+*/
+	define a void funtion pickAllBeepers()
+	{
+		while next to a beeper
+		{
+			pickBeeper
+		}
+		//void means it does not return a value, so you can only call it like a statement
+		//for example you can do roomba.pickAllBeepers(); like how you do a roomba.move();
+		//but you cant do int x = roomba.pickAllBeepers();
+		//or totalBeepers = totalBeepers + roomba.pickAllBeepers();
+		//in the program we will not use this function, but its just to give a demonstration on void function and return function
 	}
 
 }
 
 public class Roomba implements Directions
 {
+	public static void main(String[] args)
+	{
+		// this is the main function, the program will start running from here
+
+		// this is to test different worlds in a convienient way
+		// you can remove comment sign to change the world you want to test
+		//String worldName = "robot/TestWorld-1.wld";
+		//String worldName = "robot/TestWorld-2.wld";
+		//String worldName = "robot/basicRoom.wld";
+		String worldName = "robot/finalTestWorld2024.wld";
+		
+
+		Roomba cleaner = new Roomba();
 
 
-	// (because of the weakness and undevelopedness of the Robot module, )we are
-	// changing roomba into our BetterBot
+		//the following are different test world conditions, it will call the cleanRoom function with different parameters, you will see the how the cleanRoom function is defined very soon
+		//basicRoom
+		//int totalBeepers = cleaner.cleanRoom(worldName, 7, 6);
+		//TestWorld1
+		//int totalBeepers = cleaner.cleanRoom(worldName, 25, 16);
+		//TestWorld2
+		//int totalBeepers = cleaner.cleanRoom(worldName, 5, 6);
+		//FinalTestWorld
+		int totalBeepers = cleaner.cleanRoom(worldName, 26, 101);
+
+	}
+
+	//so here is the cleanRoom function, it will return an int value which is the total number of beepers it have picked up
+	//it takes 3 parameters, the name of the world file, the starting X position and the starting Y position
 	public int cleanRoom(String worldName, int startX, int startY)
 	{
-		BetterBot /* Used to be Robot */ roomba = new BetterBot(startX, startY, East, 67);
+		BetterBot roomba = new BetterBot(startX, startY, East, 67);
+		//this was defined in the BetterBot module, it will create a new BetterBot object called roomba
+		//it will start at the position (startX, startY), facing East,
 
+		//this is the debugging settings, so I have 2 different traveling patterns for the roomba, and to switch between them in a convienient way I use a variable to set the pattern. This should not be changing during the program
 		// debug settings
 		int travelingPattern = 2;
 
@@ -69,7 +96,8 @@ public class Roomba implements Directions
 		World.readWorld(worldName);
 		World.setVisible(true);
 		World.setDelay(0);
-		World.setTrace(true);
+
+
 		// variables initialize
 		int totalBeepers = 0;
 		boolean finish = false;
@@ -83,8 +111,10 @@ public class Roomba implements Directions
 
 		int pileNumber = 0;
 		// Explain it here
-		// [WIP]
+		// to find the number of pile, we can simply do it by adding 1 to our counting variable after each time our bot pick up beepers from a new pile
+		// so each time our bot tries pick up beepers, we check if the number of beepers picked up is more than 0, if so we add pileNumber by 1
 		int biggestPileNumber = 0;
+		// for the biggestPileNumber we can check each time after our bot pick up beepers, if the number of beepers pickein that piled up is more than biggestPileNumber, then we update biggestPileNumber to be the number of beepers picked up this time
 		int biggestPilePositionX = 0;
 		int biggestPilePositionY = 0;
 
@@ -330,24 +360,6 @@ public class Roomba implements Directions
 		return totalBeepers;
 	}
 
-	public static void main(String[] args)
-	{
-		//String worldName = "robot/TestWorld-1.wld";
-		//String worldName = "robot/TestWorld-2.wld";
-		//String worldName = "robot/basicRoom.wld";
-		String worldName = "robot/finalTestWorld2024.wld";
-		
-
-		Roomba cleaner = new Roomba();
-		//basicRoom
-		//int totalBeepers = cleaner.cleanRoom(worldName, 7, 6);
-		//TestWorld1
-		//int totalBeepers = cleaner.cleanRoom(worldName, 25, 16);
-		//TestWorld2
-		//int totalBeepers = cleaner.cleanRoom(worldName, 5, 6);
-		//FinalTestWorld
-		int totalBeepers = cleaner.cleanRoom(worldName, 26, 101);
-
-	}
+	
 
 }
