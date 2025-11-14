@@ -36,12 +36,15 @@ public class App {
             //input.readFromString("TestBook", "Dog\nCat\nMouse");
 
             // Example reading from a URL
-            input.readFromUrl("Romeo and Juliette", "https://gutenberg.pglaf.org/cache/epub/1513/pg1513.txt");
+            //input.readFromUrl("Romeo and Juliette", "https://gutenberg.pglaf.org/cache/epub/1513/pg1513.txt");
+            //input.readFromUrl("One hundred Years Of Solitude", "https://dn790002.ca.archive.org/0/items/OneHundredYearsOfSolitude_201710/One_Hundred_Years_of_Solitude_djvu.txt");
+
+            
 
             input.printlines(0,2);
             Book output = PigLatinTranslator.translate(input);
             output.printlines(0,2);
-            output.writeToFile("test.txt");
+            output.writeToFile(input.getTitle()+".txt");
         }
     }
 }
