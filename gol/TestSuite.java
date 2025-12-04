@@ -1,3 +1,4 @@
+//received file
 package gol;
 
 import java.util.Arrays;
