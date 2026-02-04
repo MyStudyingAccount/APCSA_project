@@ -1,10 +1,13 @@
 package sorting;
 
 public class MergeSort implements Sorter {
+    public static int loopcount = 0;
 
     public void sort(int[] input) {
+        loopcount = 0;
         // Start mergeSort by providing the whole array
         mergeSort(input, input.length);
+        System.out.println("Loop Count: " + loopcount);
     }
 
      /**
@@ -46,6 +49,7 @@ public class MergeSort implements Sorter {
         // Copy the smaller element from each chunk first.
         while (i < left && j < right)
         {
+            loopcount++;
             if (l[i] <= r[j])
             {
                 a[k++] = l[i++];
@@ -59,10 +63,12 @@ public class MergeSort implements Sorter {
         // Copy remaining elements to the output
         while (i < left)
         {
+            loopcount++;
             a[k++] = l[i++];
         }
         while (j < right)
         {
+            loopcount++;
             a[k++] = r[j++];
         }
     }

@@ -13,17 +13,18 @@ public class Main {
         //     of InsertionSort and Selection sort continue to work.
         //  4. Increase the loop count for TestSuite to get better performance results.
 
-        int[] testInput = randomArray(5);
+        int[] testInput = randomArray(100);
 
         // Increase the loop count to get better results once it works.
-        // TestSuite.run(testInput, 10000);
         TestSuite.run(testInput, 1);
     }
 
     public static int[] randomArray(int length)
     {
-        // TODO: make this return an actual random array of the provided length.
-        int[] a = {10, 5, 3, 2};
+        int[] a = new int[length];
+        for (int i = 0; i < length; i++) {
+            a[i] = (int)(Math.random() * 100);
+        }
         return a;
     }
 

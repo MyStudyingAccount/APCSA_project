@@ -4,12 +4,14 @@ public class BubbleSort implements Sorter {
 
     public void sort(int[] input)
     {
+        int loopcount = 0;
         // Loop for all elements in the array
         for (int outer = 0; outer < input.length - 1; outer++) {
             // Inner loop is one shorter for every outer loop.
             // Each loop ensures that the largest item moves to the end.
             for (int inner = 0; inner < input.length - outer - 1; inner++) {
                 // If the two elements are out of order, swap them.
+                loopcount++;
                 if (input[inner] > (input[inner + 1])) {
                     int temp = input[inner];
                     input[inner] = input[inner + 1];
@@ -17,5 +19,6 @@ public class BubbleSort implements Sorter {
                 }
             }
         }
+        System.out.println("Loop Count: " + loopcount);
     }
 }
