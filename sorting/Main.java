@@ -1,5 +1,7 @@
 package sorting;
 
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args)
     {
@@ -22,8 +24,11 @@ public class Main {
 
     public static int[] randomArray(int length)
     {
-        // TODO: make this return an actual random array of the provided length.
-        int[] a = {10, 5, 3, 2};
+        Random random = new Random();
+        int[] a = new int[length];
+        for (int i = 0; i < length; i++) {
+            a[i] = random.nextInt(100); // Generate random integers between 0 and 99
+        }
         return a;
     }
 
