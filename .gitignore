@@ -37,3 +37,8 @@ tramp
 # Org-mode
 .org-id-locations
 *_archive
+
+# Node.js
+scripts/node_modules/
+node_modules/
+npm-debug.log*
