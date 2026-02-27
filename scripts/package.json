@@ -1,0 +1,16 @@
+{
+  "name": "pokemon-guessing-game-build",
+  "version": "1.0.0",
+  "description": "Build tools for the Pokémon guessing game — converts YAML/API data into a compact JSON artifact",
+  "scripts": {
+    "build": "node build-pokemon.js",
+    "validate": "node validate-pokemon.js"
+  },
+  "dependencies": {
+    "@pkmn/sim": "^0.10.0",
+    "js-yaml": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#e3350d">
+  <title>Pokémon Guesser</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>🎮 Pokémon Guesser</h1>
+    <p class="subtitle">Narrow down candidates by entering game feedback</p>
+  </header>
+
+  <main class="app-main">
+    <!-- Guess Input -->
+    <section class="card guess-card">
+      <h2>Enter Your Guess</h2>
+      <div class="guess-row">
+        <input
+          id="guessInput"
+          type="text"
+          placeholder="Name or Dex # (e.g. Pikachu or 25)"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+        >
+        <button id="guessBtn" class="btn-primary">Set</button>
+      </div>
+      <div id="guessInfo" class="guess-info hidden"></div>
+      <div id="autocomplete" class="autocomplete hidden"></div>
+    </section>
+
+    <!-- Constraints Panel -->
+    <section id="constraintsPanel" class="card constraints-card hidden">
+      <h2>Set Constraints</h2>
+      <p class="hint">For each field, indicate how the <em>answer</em> compares to your guess.</p>
+
+      <div class="constraints-grid">
+
+        <!-- NUMERIC FIELDS -->
+        <div class="constraint-group">
+          <h3>📏 Numeric Fields</h3>
+
+          <div class="constraint-row" data-field="height" data-type="numeric">
+            <span class="field-label">Height</span>
+            <span class="field-value" id="val-height">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="higher" title="Answer is higher">↑ Higher</button>
+              <button class="op-btn" data-op="lower"  title="Answer is lower">↓ Lower</button>
+              <button class="op-btn" data-op="equal"  title="Answer is equal">= Equal</button>
+              <button class="op-btn active" data-op="unknown" title="Don't know">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="weight" data-type="numeric">
+            <span class="field-label">Weight</span>
+            <span class="field-value" id="val-weight">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="higher">↑ Higher</button>
+              <button class="op-btn" data-op="lower">↓ Lower</button>
+              <button class="op-btn" data-op="equal">= Equal</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="bst" data-type="numeric">
+            <span class="field-label">BST</span>
+            <span class="field-value" id="val-bst">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="higher">↑ Higher</button>
+              <button class="op-btn" data-op="lower">↓ Lower</button>
+              <button class="op-btn" data-op="equal">= Equal</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="spe" data-type="numeric">
+            <span class="field-label">Speed</span>
+            <span class="field-value" id="val-spe">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="higher">↑ Higher</button>
+              <button class="op-btn" data-op="lower">↓ Lower</button>
+              <button class="op-btn" data-op="equal">= Equal</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="hp" data-type="numeric">
+            <span class="field-label">HP</span>
+            <span class="field-value" id="val-hp">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="higher">↑ Higher</button>
+              <button class="op-btn" data-op="lower">↓ Lower</button>
+              <button class="op-btn" data-op="equal">= Equal</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="hatchCycles" data-type="numeric">
+            <span class="field-label">Hatch Cycles</span>
+            <span class="field-value" id="val-hatchCycles">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="higher">↑ Higher</button>
+              <button class="op-btn" data-op="lower">↓ Lower</button>
+              <button class="op-btn" data-op="equal">= Equal</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CATEGORICAL FIELDS -->
+        <div class="constraint-group">
+          <h3>🏷️ Categorical Fields</h3>
+
+          <div class="constraint-row" data-field="type1" data-type="categorical">
+            <span class="field-label">Type 1</span>
+            <span class="field-value" id="val-type1">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="type2" data-type="categorical">
+            <span class="field-label">Type 2</span>
+            <span class="field-value" id="val-type2">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="ability1" data-type="categorical">
+            <span class="field-label">Ability 1</span>
+            <span class="field-value" id="val-ability1">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="abilityH" data-type="categorical">
+            <span class="field-label">Hidden Ability</span>
+            <span class="field-value" id="val-abilityH">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="eggGroup1" data-type="categorical">
+            <span class="field-label">Egg Group 1</span>
+            <span class="field-value" id="val-eggGroup1">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="color" data-type="categorical">
+            <span class="field-label">Color</span>
+            <span class="field-value" id="val-color">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="genderBucket" data-type="categorical">
+            <span class="field-label">Gender Ratio</span>
+            <span class="field-value" id="val-genderBucket">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="gen" data-type="categorical">
+            <span class="field-label">Generation</span>
+            <span class="field-value" id="val-gen">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="evoStage" data-type="categorical">
+            <span class="field-label">Evo Stage</span>
+            <span class="field-value" id="val-evoStage">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+
+          <div class="constraint-row" data-field="isForme" data-type="categorical">
+            <span class="field-label">Is a Form?</span>
+            <span class="field-value" id="val-isForme">–</span>
+            <div class="btn-group">
+              <button class="op-btn" data-op="match">✓ Match</button>
+              <button class="op-btn" data-op="nomatch">✗ No Match</button>
+              <button class="op-btn active" data-op="unknown">? Skip</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /constraints-grid -->
+    </section><!-- /constraintsPanel -->
+
+    <!-- Results -->
+    <section class="card results-card">
+      <div class="results-header">
+        <div class="results-count" id="resultsCount">
+          <span id="countNumber">–</span>
+          <span class="count-label">candidates</span>
+        </div>
+        <div class="results-actions">
+          <label class="toggle-label">
+            <input type="checkbox" id="excludeGuessed">
+            Exclude guessed
+          </label>
+          <button id="resetBtn" class="btn-secondary">Reset All</button>
+        </div>
+      </div>
+
+      <div id="loadingMsg" class="loading-msg">Loading Pokémon data…</div>
+
+      <ul id="candidateList" class="candidate-list hidden"></ul>
+      <div id="noResults" class="no-results hidden">No matching Pokémon found.</div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Data: <a href="https://pokemondb.net" target="_blank" rel="noopener">pokemondb</a> ·
+       <a href="https://pokemonshowdown.com" target="_blank" rel="noopener">Pokémon Showdown</a></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
