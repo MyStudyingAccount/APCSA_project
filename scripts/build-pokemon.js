@@ -179,7 +179,7 @@ async function build() {
     // pokemondb uses hyphens; @pkmn/sim uses no separator. Try both.
     const dbKey = id; // e.g. "venusaurmega" — won't match unless we transform
     // Build pokemondb-style key: baseid + forme-hyphenated
-    let pokemondbKey = sp.baseSpecies.toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/ /g, '-');
+    let pokemondbKey = sp.baseSpecies.toLowerCase().replace(/[^a-z0-9-]/g, '');
     if (sp.forme) {
       const formeSlug = sp.forme.toLowerCase().replace(/[^a-z0-9]/g, '-');
       pokemondbKey = `${pokemondbKey}-${formeSlug}`;

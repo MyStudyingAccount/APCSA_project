@@ -156,7 +156,7 @@ data.forEach((p, idx) => {
 
   // Egg group valid (if present)
   if (p.eggGroup1 !== null && p.eggGroup1 !== undefined) {
-    const g = p.eggGroup1.toLowerCase().replace(' ', '-');
+    const g = p.eggGroup1.toLowerCase().replace(/ /g, '-');
     if (!VALID_EGG_GROUPS.has(g) && !VALID_EGG_GROUPS.has(p.eggGroup1)) {
       warn(`${label} unknown eggGroup1: ${p.eggGroup1}`);
     }

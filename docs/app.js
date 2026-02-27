@@ -74,7 +74,7 @@
       case 'isForme':     return v ? 'Yes' : 'No';
       case 'color':       return capitalize(v);
       case 'eggGroup1':
-      case 'eggGroup2':   return capitalize(v.replace(/-/g, ' '));
+      case 'eggGroup2':   return capitalize(String(v).replace(/-/g, ' '));
       default:            return String(v);
     }
   }

@@ -59,7 +59,7 @@ node validate-pokemon.js
 ```
 docs/               # Static app (GitHub Pages root)
   index.html        # Main HTML — mobile-first UI
-  styles.css        # CSS — optimised for Android Chrome
+  styles.css        # CSS — optimized for Android Chrome
   app.js            # Client-side filtering engine (no framework)
   data/
     pokemon.json    # Pre-generated compact Pokémon dataset
