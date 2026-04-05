@@ -49,7 +49,28 @@ public class TowerModel {
     public void move(int source, int destination)
     {
         System.out.println("Move #" + ++moveCounter + " from " + source + " to " + destination);
+        
         // TODO!!
+        if (towers[source].peek() == 0)
+        {
+            System.err.println("Empty source tower");
+        }
+        else if(towers[destination].peek() != 0)
+        {
+            if (towers[source].peek() > towers[destination].peek())
+            {
+                System.err.println("Cannot move larger disk on smaller disk");
+            }
+            else
+            {
+                towers[destination].push(towers[source].pop());
+            }
+        }
+        else
+        {
+            towers[destination].push(towers[source].pop());
+        }
+        
     }
 
     // Helper method to nicely print the current model state.
